@@ -87,9 +87,10 @@
 %\usepackage{xcolor}
 \usepackage{ulem}
 %\newcommand{\red}[1]{{\color{red}{#1}}}
-%\newcommand{\blue}[1]{{\color{blue}{#1}}}
-\newcommand{\rsout}[1]{{\color{red}{\sout{#1}}}}
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\rsout}[1]{\textcolor{red}{\sout{#1}}}
 %\newcommand{\green}[1]{{\color{green}{#1}}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
 
 \setbeamertemplate{navigation symbols}{}
 %head
@@ -176,11 +177,11 @@ A Comparison Between Bayesian Method and\\
             \begin{itemize}
                 \item \textbf{Problem:} Quantum state estimate is unstable with limited sample size. 
                 \item \textbf{Approach:} Use Bayesian framework with prior information.
-                \item \textbf{Advantage}:
+                \item \textbf{Advantage of Bayesian statistics}:
                 \begin{itemize}
                     \item[$\bullet$] Low variance in small-sample size
-                    \item[$\bullet$] Produces uncertainty with posterior distribution
-                    \item[$\bullet$] Can always physical ($|\theta| \leq 1$)
+                    \item[$\bullet$] Posterior distribution produces uncertainty. 
+                    \item[$\bullet$] Estimator is always physical ($|\theta| \leq 1$) with an appropriate prior. 
                 \end{itemize}
             \end{itemize}
 
@@ -191,47 +192,47 @@ A Comparison Between Bayesian Method and\\
                 \item \textbf{Parametric model}
                     \item[]  Single-qubit state parametrized by Bloch vector $\theta\in \mathbb{R}^3$:
                     \begin{equation}
-                        \rho_\theta=\frac{1}{2}\left(I+\theta_x\sigma_x+\theta_y\sigma_y+\theta_z\sigma_z\right),\quad \sum_{i=1}^{3}\theta_i^2\leq1.
+                        \rho_\theta=\frac{1}{2}\left(I+\theta_1\sigma_x+\theta_2\sigma_y+\theta_3\sigma_z\right),\quad \sum_{i=1}^{3}\theta_i^2\leq1.
                     \end{equation}
                 \item \textbf{Three measurement settings}  
                 \item[] Measure in the X/Y/Z basis.
                 \item[] Collected Measurement outcomes ($k_i$) for each basis obey the Bernoulli distribution:
                 \begin{equation}
-                    k_i \thicksim \mathrm{Binomial}(n_i,p_i), p_i=\frac{1}{2}(1+\theta_i) \quad \text{for } i=x,y,z.
+                    k_i \thicksim \mathrm{Binomial}(n_i,p_i), p_i=\frac{1}{2}(1+\theta_i) \quad \text{for } i=1,2,3
                 \end{equation}
                 \item \textbf{Problem}
-                \item [] Bayesian methods vs. Frequentist methods.
+                \item [] \hspace*{20mm} \blue{Bayesian methods}\hspace{20mm} vs. \hspace{25mm} \orange{Frequentist methods}
         \begin{columns}
-            \begin{column}{0.51\linewidth}
+            \begin{column}{0.5\linewidth}
                 \begin{itemize}
-                    \item [] Expected a posteriori estimate (EAP)
-                    \item [] Maximum a posteriori estimate (MAP)
+                    \item [] \hspace*{-5mm}\blue{Expected a posteriori estimator (EAP)}
+                    \item [] \hspace*{-5mm}\blue{Maximum a posteriori estimator (MAP)}
                 \end{itemize}
             \end{column}
-            \begin{column}{0.49\linewidth}
+            \begin{column}{0.5\linewidth}
                 \begin{itemize}
 
-                    \item[] Liner inversion (LI)
-                    \item[] Maximum likelihood estimate (MLE)
+                    \item[] \hspace*{-3mm}\orange{Liner inversion estimator (LI)}
+                    \item[] \hspace*{-3mm}\orange{Maximum likelihood estimator (MLE)}
                 \end{itemize}
             \end{column}
         \end{columns}
         \ \\
-            \item \textbf{Bayesian Framework and prior model}
-            \item[] Assume parameter $\theta$ obeys a distribution:
+            \item \textbf{Prior distribution in Bayesian framework}
+            \item[] Parameter $\theta$ obeys a distribution:
             \begin{equation}
-                    (\theta_x,\theta_y,\theta_z) = r \cdot \overrightarrow{u} 
+                    \theta=(\theta_1,\theta_2,\theta_3) = r \overrightarrow{u} 
             \end{equation}
-            \item[$\bullet$] $r\thicksim \mathrm{Beta}(\alpha,\beta)$ represent purity.
-            \item[$\bullet$] $\overrightarrow{u}\thicksim \mathrm{vMF}(\kappa,\mu)$ represent direction.
+            \item[$\bullet$] $r\thicksim \mathrm{Beta}(\alpha,\beta)$: purity ($\alpha,\beta>0$: hyperpameters)
+            \item[$\bullet$] $\overrightarrow{u}\thicksim \mathrm{vMF}(\kappa,\mu)$: direction ($\kappa>0$, unit vector $\mu$: hyperparameters)
         \end{itemize}
         \end{mybox}
             
-            \begin{mybox}{Simulation example}
+            \begin{mybox}{Simulation example 1}
                 \begin{itemize}
-                    \item \textbf{Getting measurement outcomes}
-                    \item[] Two states $|\theta|=0.99$ (pure), $|\theta|=0.6$ (mixed).
-                    \item[] n measurements per X/Y/Z basis with $n=10,50$.
+                    \item \textbf{Simulation setting}
+                    \item[] Two states: $|\theta|=0.99$ (close to pure), $|\theta|=0.6$ (more mixed).
+                    \item[] $n$ measurements for each X/Y/Z basis with $n=10,50$.
                     \item \textbf{Setting hyperparameters}
                     \item [] As an example, $(\alpha, \beta)=(1,4)$, $\kappa=1$, and $\mu=(1,0,0)$, i.e., the state should close to $\frac{1}{2}(I+\sigma_x)$, with weak directional concentration and a broad purity distribution.
                 \end{itemize}
@@ -250,7 +251,7 @@ A Comparison Between Bayesian Method and\\
         \end{columns}
 
                 \begin{itemize}
-                    \item  \textbf{Sampling via PyMC}\\
+                    \item  \textbf{Sampling via PyMC (Python library)}\\
                     \item[] It is easy to customize distribution with PyMC and do Sampling.
                 \end{itemize}
                         \begin{columns}
@@ -271,16 +272,16 @@ A Comparison Between Bayesian Method and\\
                             \item MAP: prior-sensitive 
                         \end{itemize}
                     \end{column}
-                    \begin{column}{0.45\linewidth}
+                    \begin{column}{0.5\linewidth}
                         \begin{itemize}
                             \item MLE: unstable for mixed state
-                            \item LI: non-physical ($|\theta| > 1$)   
+                            \item LI: often non-physical ($|\theta| > 1$)   
                         \end{itemize}
                     \end{column}
                 \end{columns}
                 \begin{shortbox}
                     \begin{center}
-                        Bayesian method (EAP) can outperform maximum likelihood estimation under limited sample size.
+                        Bayesian method (EAP) outperforms maximum likelihood estimation for limited sample size.
                     \end{center}
                 \end{shortbox}
             \end{mybox}
@@ -290,25 +291,42 @@ A Comparison Between Bayesian Method and\\
     \end{column}
 
     \begin{column}{0.5\linewidth}
-        \begin{mybox}{Performance under less prior knowledge}
+        \begin{mybox}{Simulation example 2}
             \begin{itemize}
-                \item \textbf{Non-informative prior on $r$, weakly informative prior on $\overrightarrow{u}$}
-                \item[] Setting: $(\alpha,\beta)=(0.5,0.5)$, $\kappa=0.5$ and $\mu=(1,0,0)$, i.e.,  little prior knowledge exists.
+            \item \textbf{Less prior knowledge: Suppose we do not have enough information about $\theta$.}
+                \item \textbf{Non-informative prior for the purity $r$ (Jeffereys prior)}
+            \end{itemize}
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+\begin{center}
+                        \includegraphics[width=0.5\linewidth]{beta.5.5.png}
+    
+\end{center}  
+          \end{column}
+            \begin{column}{0.5\linewidth}
+\begin{center}
+                            \includegraphics[width=0.5\linewidth]{Figure_vmf3.png}
+\end{center}   
+         \end{column}
+        \end{columns}
                 \begin{center}
-                    \includegraphics[width=0.8\linewidth]{theta_mse_i2.png}
+                    \includegraphics[width=0.7\linewidth]{theta_mse_i2.png}
                 \end{center}
-                \begin{columns}
-                    \begin{column}{0.45\linewidth}
-                        \begin{itemize}
-                            \item EAP: Best under mixed state.
-                        \end{itemize}
-                    \end{column}
-                    \begin{column}{0.55\linewidth}
-                        \begin{itemize}
-                            \item MAP becomes unstable when the prior has unbounded density.  
-                        \end{itemize}
-                    \end{column}
-                \end{columns}
+                \begin{itemize}
+                \item[] EAP: Best under mixed state.
+                \item[] MAP becomes unstable when the prior has unbounded density.
+%                \begin{columns}
+%                    \begin{column}{0.45\linewidth}
+%                        \begin{itemize}
+%                            \item EAP: Best under mixed state.
+%                        \end{itemize}
+%                    \end{column}
+%                    \begin{column}{0.55\linewidth}
+%                        \begin{itemize}
+%                            \item MAP becomes unstable when the prior has unbounded density.  
+%                        \end{itemize}
+%                    \end{column}
+%                \end{columns}
             \end{itemize}
             \begin{shortbox}
             \begin{center}
@@ -318,16 +336,28 @@ A Comparison Between Bayesian Method and\\
         \end{mybox}
 
 
-        \begin{mybox}{Performance under prior misspecification}
+        \begin{mybox}{Simulation example 3}
 
                 \begin{itemize}
-                \item \textbf{Prior misspecification}
-                \item Setting: $(\alpha,\beta)=(1,4)$, $\kappa=4$ and $\mu=(\red{-1},0,0)$, i.e., opposite direction.
+                \item \textbf{Prior misspecification: pior distribution is significantly different from the true one.}
+                \item $(\alpha,\beta)=(1,4)$, $\kappa=4$, $\mu=(\red{-1},0,0)$, i.e., opposite direction.
+                \end{itemize}
+                        \begin{columns}
+            \begin{column}{0.7\linewidth}
                 \begin{center}
-                    \includegraphics[width=0.8\linewidth]{theta_mse_i_oppsite.png}
-                \end{center}
+                        \includegraphics[]{theta_mse_i_oppsite.png}
+                \end{center}   
+            \end{column}
+            \begin{column}{0.3\linewidth}
+\begin{center}
+                                \includegraphics[width=0.8\linewidth]{Figure_vmf2.png} 
+    
+\end{center}            
+\end{column}
+        \end{columns}
+        \begin{itemize}
                 \item[] Under severely misspecified prior, MAP degrades significantly, while EAP is less sensitive.
-                \item\text{ Check posterior:} A weak \red{secondary mode} provide a signal of prior-data mismatch.
+                \item A weak \red{secondary mode} of the posterior indicates prior-data mismatch.
                 \begin{center}
                     \includegraphics[width=0.9\linewidth]{theta_trace_miss.png}
                 \end{center}
@@ -346,9 +376,9 @@ A Comparison Between Bayesian Method and\\
         \end{mybox}
         \begin{mybox}{Conclusion and outlook}
             \begin{itemize}
-                \item Bayesian estimation yields stable and physical estimates under limited data.
-                \item EAP is insensitive to prior choice and achieves low variance.
-                \item Posterior provides uncertainty quantification and detects prior-data mismatch.
+                \item EAP yields stable estimates even for small sample size data.
+                \item EAP is less sensitive to prior choice and achieves low variance.
+                \item Posterior can provide uncertainty and suggest prior-data mismatch.
                 \item[]\textbf{Outlook}
                 \item Develop systematic approaches for hyperparameter selection, such as prior updating or other reliable methods.
                 \item Extend to hierarchical Bayesian models to handle imbalanced or heterogeneous measurement settings.
