@@ -1,0 +1,404 @@
+\documentclass[dvipdfmx]{beamer}
+\usepackage[orientation=portrait,size=a0,scale=1.5]{beamerposter}%縦 : orientation=portrait, 横 : orientation=landscape
+\usepackage{here, amsmath, latexsym, amssymb, bm, ascmac, mathtools, multicol, tcolorbox}
+%カラーテーマの選択(省略可)
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{pythonhighlight}
+% \usetikzlibrary{plotmarks} % LATEX and plain TEX when using TikZ
+% \usetikzlibrary{arrows.meta,positioning}
+% \usetikzlibrary{datavisualization}
+% \usetheme{Copenhagen}
+% %フォントテーマの選択(省略可)
+% \usefonttheme{professionalfonts}
+% %フレーム内のテーマの選択(省略可)
+% \useinnertheme{circles}
+% %ナビゲーションバー非表示
+% \setbeamertemplate{navigation symbols}{}
+% %既定をゴシック体に
+% \renewcommand{\kanjifamilydefault}{\gtdefault}
+%itemize
+% \setbeamertemplate{itemize item}{\small\raise0.5pt\hbox{$\bullet$}}
+% \setbeamertemplate{itemize subitem}{\small\raise1.5pt\hbox{$\blacktriangleright$}}
+% \setbeamertemplate{itemize subsubitem}{\small\raise1.5pt\hbox{$\bigstar$}}
+% color
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green!40!black}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue!80!black}{#1}}
+\def \htheta{\hat{\theta}}
+\def \cvT{{\cal C}_\mathrm{vT}}
+\def \cBNH{{\cal C}_\mathrm{BNH}}
+\def \cN{{\cal C}_\mathrm{N}}
+\def \cHo{{\cal C}_\mathrm{H}}
+\def \cP{{\cal C}_\mathrm{P}}
+\def \cBSLD{{\cal C}_\mathrm{BSLD}}
+\def \cRLD{{\cal C}_\mathrm{RLD}}
+\def \cMI{{\cal C}_\mathrm{MI}}
+\def \cGM{{\cal C}_\mathrm{BGM}}
+
+\def \rhoB{S_{\rm B}}
+\def \MBj{{D}_{\mathrm{B},j}}
+\def \MBk{{D}_{\mathrm{B},k}}
+\def \Mtheta{D(\theta)}
+\def \Mthetaj{D_{j}(\theta)}
+\def \MthetaT{D^\intercal(\theta)}
+\def \mutwo{\mathsf{m}}
+\def \muTwo{\mathsf{M}}
+\def\sfA{\mathsf{A}}
+\def\sfB{\mathsf{B}}
+\def\sfc{\mathsf{c}}
+\def\sfK{\mathsf{K}}
+\def\sfM{\mathsf{M}}
+\def\sfR{\mathsf{R}}
+\def\sfJ{\mathsf{J}}
+\def\sfV{\mathsf{V}}
+\def\sfH{\mathsf{H}}
+\def\sfS{\mathsf{S}}
+\def\sfT{\mathsf{T}}
+\def\sfZ{\mathsf{Z}}
+\def\sfw{\mathsf{w}}
+\def\sfW{\mathsf{W}}
+\def\bbH{\mathbb{H}}
+\def\bfS{\mathbf{S}}
+\def\sfL{\mathsf{L}}
+\def\bbU{\mathbb{U}}
+\def\bbV{\mathbb{V}}
+\def\bbX{\mathbb{X}}
+\def \prior{\pi(\theta)}
+\newcommand{\opTr}[1]{\mathrm{Tr}\left\{#1\right\}}
+\newcommand{\sfTr}[1]{\mathrm{Tr}\left\{#1\right\}}
+\newcommand{\bbTr}[1]{\mathrm{Tr}\left\{#1\right\}}
+% \newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{prim}{prim}
+\newtheorem{dual}{dual}
+
+\def \bfSbar{\overline{\bfS}}
+\def \Mbar{\overline{D}}
+\def \Mbarj{\overline{D}_j}
+\def \sfwbar{\overline{\sfw}}
+\def \sfwtheta{\sfw(\theta)}% \newtheorem{corollary}[theorem]{Corollary}
+
+\newcommand{\inner}[2]{\langle #1| #2\rangle}
+\newcommand{\Inner}[2]{\langle #1, #2\rangle}
+
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle#1|}
+%%%%% for draft only
+%\usepackage{xcolor}
+\usepackage{ulem}
+%\newcommand{\red}[1]{{\color{red}{#1}}}
+%\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\rsout}[1]{\textcolor{red}{\sout{#1}}}
+%\newcommand{\green}[1]{{\color{green}{#1}}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+
+\setbeamertemplate{navigation symbols}{}
+%head
+\setbeamertemplate{headline}{
+    \begin{center}
+        \structure{
+            \rule{\linewidth}{4mm}
+            \vskip3ex
+            \begin{columns}
+                \begin{column}{0.70\textwidth}
+                    \usebeamercolor{title in headline}{\textbf{\LARGE{\inserttitle}}}\\[2.5ex]
+                    \usebeamercolor{author in headline}{\large{\insertauthor}}\\[1.2ex]
+                    \usebeamercolor{institute in headline}{\normalsize{\insertinstitute}}   
+                \end{column}
+                \begin{column}{0.25\textwidth}
+                    \includegraphics[width=0.48\linewidth]{UEC_logo2.png}\includegraphics[width=0.48\linewidth]{erato_logo.png}
+                \end{column}    
+           \end{columns}
+
+            \vskip2ex
+            \rule{\linewidth}{4mm}
+            \vspace{-20pt}
+        }
+        \end{center}
+}
+%foot
+\setbeamertemplate{footline}{
+    \begin{center}
+        \structure{
+            \rule{0.98\linewidth}{2mm}
+            \vskip4ex
+            \begin{columns}[T]
+                \begin{column}{0.05\paperwidth}
+                \end{column}
+                \begin{column}{0.95\paperwidth}
+                    \usebeamercolor{conference in headline}{\small{\foot}}
+                \end{column}
+            \end{columns}
+            \vskip3ex
+        }
+    \end{center}
+}
+
+\setbeamertemplate{theorems}[ams style]
+\newtcolorbox{mybox}[1]
+{
+    title=#1, 
+    toptitle=2mm, bottomtitle=2mm, 
+    colframe=structure,boxrule=5pt,
+    arc=30pt,
+    coltitle=white, colbacktitle=structure,
+    colback=white, fonttitle=\bfseries\Large,
+    top=3mm, bottom=3mm, left=5mm, right=5mm, %内部余白調整
+    enlarge top by=0mm, enlarge bottom by=0mm, %外部余白調整
+}
+\newtcolorbox{shortbox}{
+    toptitle=2mm, bottomtitle=2mm, 
+    colframe=structure,boxrule=5pt,
+    arc=30pt,
+    coltitle=white, colbacktitle=structure,
+    colback=white, fonttitle=\bfseries\Large,
+    top=3mm, bottom=3mm, left=1mm, right=1mm, %内部余白調整
+    enlarge top by=0mm, enlarge bottom by=0mm, %外部余白調整
+    }
+\title{
+A Comparison Between Bayesian Method and\\
+~Linear Estimation in Qubit Tomography}
+\author{Ke-Han Zhao†, Jun Suzuki†, E-mail: c2241016@gl.cc.uec.ac.jp}
+\institute{† Graduate School of Informatics and Engineering, The University of Electro-Communications\\
+}
+\newcommand{\foot}{
+    Acknowledgment:
+    The work is partly supported by JSPS KAKENHI Grant Number JP24K14816, 
+    and ERATO ``Super Quantum Entanglement" (Grant No. JPMJER2402) from JST.
+    }
+
+\begin{document}
+
+\begin{frame}[fragile]
+\begin{columns}[t]
+    \begin{column}{0.5\linewidth}
+
+        \begin{mybox}{Introduction}
+            \begin{itemize}
+                \item \textbf{Problem:} Quantum state estimate is unstable with limited sample size. 
+                \item \textbf{Approach:} Use Bayesian framework with prior information.
+                \item \textbf{Advantage of Bayesian statistics}:
+                \begin{itemize}
+                    \item[$\bullet$] Low variance in small-sample size
+                    \item[$\bullet$] Posterior distribution produces uncertainty. 
+                    \item[$\bullet$] Estimator is always physical ($|\theta| \leq 1$) with an appropriate prior. 
+                \end{itemize}
+            \end{itemize}
+
+        \end{mybox}
+
+        \begin{mybox}{Model and problem setting}
+            \begin{itemize}
+                \item \textbf{Parametric model}
+                    \item[]  Single-qubit state parametrized by Bloch vector $\theta\in \mathbb{R}^3$:
+                    \begin{equation}
+                        \rho_\theta=\frac{1}{2}\left(I+\theta_1\sigma_x+\theta_2\sigma_y+\theta_3\sigma_z\right),\quad \sum_{i=1}^{3}\theta_i^2\leq1.
+                    \end{equation}
+                \item \textbf{Three measurement settings}  
+                \item[] Measure in the X/Y/Z basis.
+                \item[] Collected Measurement outcomes ($k_i$) for each basis obey the Bernoulli distribution:
+                \begin{equation}
+                    k_i \thicksim \mathrm{Binomial}(n_i,p_i), p_i=\frac{1}{2}(1+\theta_i) \quad \text{for } i=1,2,3
+                \end{equation}
+                \item \textbf{Problem}
+                \item [] \hspace*{20mm} \blue{Bayesian methods}\hspace{20mm} vs. \hspace{25mm} \orange{Frequentist methods}
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+                \begin{itemize}
+                    \item [] \hspace*{-5mm}\blue{Expected a posteriori estimator (EAP)}
+                    \item [] \hspace*{-5mm}\blue{Maximum a posteriori estimator (MAP)}
+                \end{itemize}
+            \end{column}
+            \begin{column}{0.5\linewidth}
+                \begin{itemize}
+
+                    \item[] \hspace*{-3mm}\orange{Liner inversion estimator (LI)}
+                    \item[] \hspace*{-3mm}\orange{Maximum likelihood estimator (MLE)}
+                \end{itemize}
+            \end{column}
+        \end{columns}
+        \ \\
+            \item \textbf{Prior distribution in Bayesian framework}
+            \item[] Parameter $\theta$ obeys a distribution:
+            \begin{equation}
+                    \theta=(\theta_1,\theta_2,\theta_3) = r \overrightarrow{u} 
+            \end{equation}
+            \item[$\bullet$] $r\thicksim \mathrm{Beta}(\alpha,\beta)$: purity ($\alpha,\beta>0$: hyperpameters)
+            \item[$\bullet$] $\overrightarrow{u}\thicksim \mathrm{vMF}(\kappa,\mu)$: direction ($\kappa>0$, unit vector $\mu$: hyperparameters)
+        \end{itemize}
+        \end{mybox}
+            
+            \begin{mybox}{Simulation example 1}
+                \begin{itemize}
+                    \item \textbf{Simulation setting}
+                    \item[] Two states: $|\theta|=0.99$ (close to pure), $|\theta|=0.6$ (more mixed).
+                    \item[] $n$ measurements for each X/Y/Z basis with $n=10,50$.
+                    \item \textbf{Setting hyperparameters}
+                    \item [] As an example, $(\alpha, \beta)=(1,4)$, $\kappa=1$, and $\mu=(1,0,0)$, i.e., the state should close to $\frac{1}{2}(I+\sigma_x)$, with weak directional concentration and a broad purity distribution.
+                \end{itemize}
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+\begin{center}
+                        \includegraphics[width=0.5\linewidth]{beta41.png}
+    
+\end{center}  
+          \end{column}
+            \begin{column}{0.5\linewidth}
+\begin{center}
+                            \includegraphics[width=0.5\linewidth]{Figure_vmf1.png}
+\end{center}   
+         \end{column}
+        \end{columns}
+
+                \begin{itemize}
+                    \item  \textbf{Sampling via PyMC (Python library)}\\
+                    \item[] It is easy to customize distribution with PyMC and do Sampling.
+                \end{itemize}
+                        \begin{columns}
+            \begin{column}{0.7\linewidth}
+                \begin{center}
+                        \includegraphics[]{theta_mse_i1.png}
+                \end{center}   
+            \end{column}
+            \begin{column}{0.3\linewidth}
+                            \includegraphics[]{mapeap.png} 
+            \end{column}
+        \end{columns}
+
+                \begin{columns}
+                    \begin{column}{0.45\linewidth}
+                        \begin{itemize}
+                            \item EAP: stable estimate  
+                            \item MAP: prior-sensitive 
+                        \end{itemize}
+                    \end{column}
+                    \begin{column}{0.5\linewidth}
+                        \begin{itemize}
+                            \item MLE: unstable for mixed state
+                            \item LI: often non-physical ($|\theta| > 1$)   
+                        \end{itemize}
+                    \end{column}
+                \end{columns}
+                \begin{shortbox}
+                    \begin{center}
+                        Bayesian method (EAP) outperforms maximum likelihood estimation for limited sample size.
+                    \end{center}
+                \end{shortbox}
+            \end{mybox}
+
+    
+
+    \end{column}
+
+    \begin{column}{0.5\linewidth}
+        \begin{mybox}{Simulation example 2}
+            \begin{itemize}
+            \item \textbf{Less prior knowledge: Suppose we do not have enough information about $\theta$.}
+                \item \textbf{Non-informative prior for the purity $r$ (Jeffereys prior)}
+            \end{itemize}
+        \begin{columns}
+            \begin{column}{0.5\linewidth}
+\begin{center}
+                        \includegraphics[width=0.5\linewidth]{beta.5.5.png}
+    
+\end{center}  
+          \end{column}
+            \begin{column}{0.5\linewidth}
+\begin{center}
+                            \includegraphics[width=0.5\linewidth]{Figure_vmf3.png}
+\end{center}   
+         \end{column}
+        \end{columns}
+                \begin{center}
+                    \includegraphics[width=0.7\linewidth]{theta_mse_i2.png}
+                \end{center}
+                \begin{itemize}
+                \item[] EAP: Best under mixed state.
+                \item[] MAP becomes unstable when the prior has unbounded density.
+%                \begin{columns}
+%                    \begin{column}{0.45\linewidth}
+%                        \begin{itemize}
+%                            \item EAP: Best under mixed state.
+%                        \end{itemize}
+%                    \end{column}
+%                    \begin{column}{0.55\linewidth}
+%                        \begin{itemize}
+%                            \item MAP becomes unstable when the prior has unbounded density.  
+%                        \end{itemize}
+%                    \end{column}
+%                \end{columns}
+            \end{itemize}
+            \begin{shortbox}
+            \begin{center}
+                \ EAP achieves lower variance under weakly informative prior.
+            \end{center}
+            \end{shortbox}
+        \end{mybox}
+
+
+        \begin{mybox}{Simulation example 3}
+
+                \begin{itemize}
+                \item \textbf{Prior misspecification: pior distribution is significantly different from the true one.}
+                \item $(\alpha,\beta)=(1,4)$, $\kappa=4$, $\mu=(\red{-1},0,0)$, i.e., opposite direction.
+                \end{itemize}
+                        \begin{columns}
+            \begin{column}{0.7\linewidth}
+                \begin{center}
+                        \includegraphics[]{theta_mse_i_oppsite.png}
+                \end{center}   
+            \end{column}
+            \begin{column}{0.3\linewidth}
+\begin{center}
+                                \includegraphics[width=0.8\linewidth]{Figure_vmf2.png} 
+    
+\end{center}            
+\end{column}
+        \end{columns}
+        \begin{itemize}
+                \item[] Under severely misspecified prior, MAP degrades significantly, while EAP is less sensitive.
+                \item A weak \red{secondary mode} of the posterior indicates prior-data mismatch.
+                \begin{center}
+                    \includegraphics[width=0.9\linewidth]{theta_trace_miss.png}
+                \end{center}
+
+        \end{itemize}
+                \begin{shortbox}
+                \begin{center}
+                        Posterior distribution provides diagnostic insight.
+                \end{center}                
+                \end{shortbox} 
+        %   \begin{shortbox}
+        %     \begin{center}
+        %         It is a projection-valued measure!
+        %     \end{center}
+        %   \end{shortbox}
+        \end{mybox}
+        \begin{mybox}{Conclusion and outlook}
+            \begin{itemize}
+                \item EAP yields stable estimates even for small sample size data.
+                \item EAP is less sensitive to prior choice and achieves low variance.
+                \item Posterior can provide uncertainty and suggest prior-data mismatch.
+                \item[]\textbf{Outlook}
+                \item Develop systematic approaches for hyperparameter selection, such as prior updating or other reliable methods.
+                \item Extend to hierarchical Bayesian models to handle imbalanced or heterogeneous measurement settings.
+        \end{itemize}
+
+        \end{mybox}
+            % \begin{shortbox}
+            %     \small
+            %     \begin{itemize}
+            %         \item[{[1]}] R. D. Gill and S. Massar, State estimation for large ensembles, PRA, 61, 042312 (2000).
+            %         \item[{[2]}] S.D. Personick, Application of quantum estimation theory to analog communication over quantum channels, IEEE T-IT,17, 240 (1971).
+            %         \item[{[3]}] J. Rubio and J. Dunningham, Bayesian multiparameter quantum metrology with limited data, PRA, 101, 032114 (2020).
+            %         \item[{[4]}] R. Demkowicz-Dobrza{\'n}ski, W. G{\'o}recki, and M. Gu{\c{t}}{\u{a}},Multi-parameter estimation beyond quantum Fisher information, JPhys A, 53, 363001 (2020).
+            %         \item[{[5]}] K. Yamagata, Efficiency of quantum state tomography for qubits, IJQI, 9, 1167 (2011).
+            %         \item [{[6]}]  J. Suzuki, Bayesian Nagaoka-Hayashi Bound for Multiparameter Quantum-State Estimation Problem, IEICE Trans, E107A, 510 (2024).
+            %     \end{itemize}
+                
+            % \end{shortbox}
+    \end{column}
+\end{columns}
+\end{frame}
+
+\end{document}
